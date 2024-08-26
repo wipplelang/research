@@ -19,7 +19,7 @@ jobs:
                   repository: wipplelang/MQP
                   run-id: ${{ github.event.client_payload.run_id }}
                   github-token: ${{ secrets.WIPPLE_MQP_PAT }}
-                  path: deploy
+                  path: deploy/mqp
 
             - uses: actions/upload-pages-artifact@v2
               with:
