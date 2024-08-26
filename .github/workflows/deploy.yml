@@ -1,0 +1,29 @@
+on:
+    repository_dispatch:
+        types:
+            - deploy
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        permissions:
+            pages: write
+            id-token: write
+        environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+        steps:
+            - uses: actions/download-artifact@v4
+              with:
+                  name: deploy
+                  repository: wipplelang/MQP
+                  run-id: ${{ github.event.client_payload.run_id }}
+                  github-token: ${{ secrets.WIPPLE_MQP_PAT }}
+                  path: deploy
+
+            - uses: actions/upload-pages-artifact@v2
+              with:
+                  path: deploy
+
+            - id: deployment
+              uses: actions/deploy-pages@v2
